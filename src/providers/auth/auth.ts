@@ -3,22 +3,32 @@ import { Injectable } from '@angular/core';
 //for Angular FireBase Authentication
 import { AngularFireAuth } from 'angularfire2/auth';
 import { Events, NavController } from 'ionic-angular';
-import { Storage } from '@ionic/storage';
+import { IonicStorageModule } from '@ionic/storage';
 import { TabsPage } from '../../pages/tabs/tabs';
 import { LoginPage } from '../../pages/login/login';
 import firebase from 'firebase';
 
 @Injectable()
 export class AuthProvider {
-
-constructor(public afAuth: AngularFireAuth,public events: Events,public storage: Storage) {}
+  HAS_LOGGED_IN = 'hasLoggedIn';
+  public fireAuth: any;
+constructor(public afAuth: AngularFireAuth,public events: Events,public storage: Storage) {this.fireAuth = firebase.auth();}
 
 	loginUser(newEmail: string, newPassword: string): firebase.Promise<any> {
 	  return this.afAuth.auth.signInWithEmailAndPassword(newEmail, newPassword);
 	}
 
 	resetPassword(email: string): firebase.Promise<any> {
-	  return this.afAuth.auth.sendPasswordResetEmail(email);
+    return this.fireAuth.sendPasswordResetEmail(email)
+    .then(() => {
+      //console.log('Reset Password Email Sent.');
+      this.events.publish('resetPassword', 'Reset Password Email has been sent Successfully.');
+    })
+    .catch(() => {
+      //console.log('Reset Password Email CANNOT Sent.');
+      this.events.publish('resetPassword', 'Cannot send Reset Password Email for now.');
+    });
+
 	}
 
 	logoutUser(): firebase.Promise<any> {
@@ -29,24 +39,9 @@ constructor(public afAuth: AngularFireAuth,public events: Events,public storage:
 	  return this.afAuth.auth.createUserWithEmailAndPassword(newEmail, newPassword);
 	}
 
-}
-//
-
-@Injectable()
-export class UserData {
-  HAS_LOGGED_IN = 'hasLoggedIn';
-  public fireAuth: any;
-
-  constructor(
-    public events: Events,
-    public storage: Storage,
-    public af: AngularFire,
-  ) {
-    this.fireAuth = firebase.auth();
-  }
 
   login(username: string, password: string): void {
-      this.af.auth.login({ email: username, password: password })
+      this.fireAuth.login({ email: username, password: password })
       .then((auth) => {
         console.log('Log In Successful, UID: ' + auth.uid + ', ' + 'Email: ' + username);
         this.storage.set('UID', auth.uid);
@@ -60,7 +55,7 @@ export class UserData {
   };
 
   signup(username: string, password: string): void {
-    this.af.auth.createUser({ email: username, password: password })
+    this.fireAuth.createUser({ email: username, password: password })
       .then((auth) => {
           this.storage.set('UID', auth.uid);
           this.storage.set('EMAIL', username);
@@ -73,7 +68,7 @@ export class UserData {
   };
 
   logout(): void {
-    this.af.auth.logout()
+    this.fireAuth.logout()
     .then(() => {
       this.storage.set('UID', '');
       this.storage.set('EMAIL', '');
@@ -108,17 +103,6 @@ export class UserData {
       return value === true;
     });
   };
-
-  resetPassword(email: string): any {
-    return this.fireAuth.sendPasswordResetEmail(email)
-    .then(() => {
-      //console.log('Reset Password Email Sent.');
-      this.events.publish('resetPassword', 'Reset Password Email has been sent Successfully.');
-    })
-    .catch(() => {
-      //console.log('Reset Password Email CANNOT Sent.');
-      this.events.publish('resetPassword', 'Cannot send Reset Password Email for now.');
-    });
-  }
+  
 
 }
