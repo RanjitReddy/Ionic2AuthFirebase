@@ -3,7 +3,7 @@ import { NgForm } from '@angular/forms';
 import { IonicStorageModule } from '@ionic/storage';
 import { NavController, NavParams, MenuController, ItemSliding } from 'ionic-angular';
 import { AngularFireModule } from 'angularfire2';
-import { AngularFireDatabaseModule, AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
+import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 import { AuthProvider } from '../../providers/auth/auth';
 import { DataDetailPage } from '../data-detail/data-detail';
 
@@ -20,7 +20,7 @@ export class ShowDataPage {
   uid: string;
   submitted = false;
 
-  constructor(public storage: Storage, public navCtrl: NavController,
+  constructor(public storage: IonicStorageModule, public navCtrl: NavController,
     public navParams: NavParams, public af: AngularFireDatabase, menuCtrl: MenuController,
     public userData: AuthProvider) {
 

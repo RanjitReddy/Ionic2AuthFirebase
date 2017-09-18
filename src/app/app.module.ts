@@ -12,15 +12,16 @@ import { HomePage } from '../pages/home/home';
 import { LoginPage } from '../pages/login/login';
 import { LoginPageModule } from '../pages/login/login.module';
 import { SignupPage } from '../pages/signup/signup';
+import { SignupPageModule } from '../pages/signup/signup.module';
 import { ResetPasswordPage } from '../pages/reset-password/reset-password';
 // Importing AF2 Module
 
  import {IonicStorageModule} from '@ionic/storage';
-
+import {  MapData } from '../providers/map-data';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 
-
+import { HttpModule } from '@angular/http';
 // AF2 Settings
 const firebaseConfig = {
   apiKey: "AIzaSyBYFVD-FZPs46zvPj_M1jdBoVZl4JaLxRQ",
@@ -31,19 +32,21 @@ const firebaseConfig = {
     messagingSenderId: "616842499614"
 };
 
+
 @NgModule({
   declarations: [
     MyApp,
-    HomePage,
-    SignupPage
+    HomePage
   ],
   imports: [
     BrowserModule,
+    HttpModule,
     IonicModule.forRoot(MyApp),
     AngularFireModule.initializeApp(firebaseConfig),
-    IonicStorageModule.forRoot({ }),// name: '__mydb',driverOrder: ['indexeddb', 'sqlite', 'websql']
+    IonicStorageModule.forRoot(), //name: '__mydb',driverOrder: ['indexeddb', 'sqlite', 'websql']
     AngularFireAuthModule,
-    LoginPageModule
+    LoginPageModule,
+    SignupPageModule
 
   ],
   bootstrap: [IonicApp],
@@ -55,11 +58,12 @@ const firebaseConfig = {
     LoginPage
   ],
   providers: [
-    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    {provide: ErrorHandler, useClass: IonicErrorHandler},IonicStorageModule,
     SplashScreen,
     StatusBar, 
     AuthProvider,
-    Camera
+    Camera,
+    MapData
 
   ]
 })

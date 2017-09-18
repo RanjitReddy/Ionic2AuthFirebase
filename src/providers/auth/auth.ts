@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 //for Angular FireBase Authentication
 import { AngularFireAuth } from 'angularfire2/auth';
 import { Events, NavController } from 'ionic-angular';
-import { IonicStorageModule } from '@ionic/storage';
+import { Storage } from '@ionic/storage';
 import { TabsPage } from '../../pages/tabs/tabs';
 import { LoginPage } from '../../pages/login/login';
 import firebase from 'firebase';
