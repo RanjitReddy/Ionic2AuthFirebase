@@ -2,8 +2,9 @@ import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { IonicStorageModule } from '@ionic/storage';
 import { NavController, NavParams, MenuController, ItemSliding } from 'ionic-angular';
-import { AngularFireModule, FirebaseListObservable  } from 'angularfire2';
-import { UserData } from '../../providers/user-data';
+import { AngularFireModule } from 'angularfire2';
+import { AngularFireDatabaseModule, AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
+import { AuthProvider } from '../../providers/auth/auth';
 import { DataDetailPage } from '../data-detail/data-detail';
 
 @Component({
@@ -20,8 +21,8 @@ export class EnterDataPage {
   message: any;
 
   constructor(public storage: Storage, public navCtrl: NavController,
-    public navParams: NavParams, public af: AngularFireModule, menuCtrl: MenuController,
-    public userData: UserData) {
+    public navParams: NavParams, public af: AngularFireDatabase, menuCtrl: MenuController,
+    public userData: AuthProvider) {
       this.message = '';
       //this.items = af.database.list('/data');
       this.selectedItem = navParams.get('item');
@@ -35,7 +36,7 @@ export class EnterDataPage {
   getUid() {
     this.userData.getUid().then((uid) => {
       this.uid = uid;
-      this.theItems = this.af.database.list('/data' + '/' + this.uid);
+      this.theItems = this.af.list('/data' + '/' + this.uid);
     });
   }
 
@@ -43,7 +44,7 @@ export class EnterDataPage {
     this.submitted = true;
 	this.userData.getUid().then((uid) => {
       this.uid = uid;
-      this.theItems = this.af.database.list('/data' + '/' + this.uid);
+      this.theItems = this.af.list('/data' + '/' + this.uid);
 	  if (form.valid) {
       this.theItems.push({ name: this.data.name, text: this.data.text })
       .then((val) => {

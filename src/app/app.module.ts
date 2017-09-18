@@ -15,7 +15,7 @@ import { SignupPage } from '../pages/signup/signup';
 import { ResetPasswordPage } from '../pages/reset-password/reset-password';
 // Importing AF2 Module
 
- 
+ import {IonicStorageModule} from '@ionic/storage';
 
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireAuthModule } from 'angularfire2/auth';
@@ -41,6 +41,7 @@ const firebaseConfig = {
     BrowserModule,
     IonicModule.forRoot(MyApp),
     AngularFireModule.initializeApp(firebaseConfig),
+    IonicStorageModule.forRoot({ }),// name: '__mydb',driverOrder: ['indexeddb', 'sqlite', 'websql']
     AngularFireAuthModule,
     LoginPageModule
 
@@ -54,7 +55,7 @@ const firebaseConfig = {
     LoginPage
   ],
   providers: [
-    {provide: ErrorHandler, useClass: IonicErrorHandler},    
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
     SplashScreen,
     StatusBar, 
     AuthProvider,
