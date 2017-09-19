@@ -3,7 +3,7 @@
         <ion-toolbar>
             <ion-title>Menu</ion-title>
         </ion-toolbar>
-    </ion-header>        
+    </ion-header>
     <ion-content>
         <ion-list>
             <ion-item (click)="go_to_home()" menuClose>
@@ -18,7 +18,7 @@
         </ion-list>
     </ion-content>
 </ion-menu>
- 
+
 <ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>
  -->
 
@@ -50,6 +50,7 @@
   </ion-menu>
 
   <!-- logged in menu -->
+
   <ion-menu id="loggedInMenu" [content]="content">
 
     <ion-header>
@@ -88,5 +89,3 @@
   <ion-nav [root]="rootPage" #content swipeBackEnabled="false" main></ion-nav>
 
 </ion-split-pane>
-
-

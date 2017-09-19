@@ -60,7 +60,7 @@ const firebaseConfig = {
   providers: [
     {provide: ErrorHandler, useClass: IonicErrorHandler},IonicStorageModule,
     SplashScreen,
-    StatusBar, 
+    StatusBar,
     AuthProvider,
     Camera,
     MapData

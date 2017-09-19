@@ -31,7 +31,7 @@ export interface PageInterface {
   templateUrl: 'app.html'
 })
 export class MyApp {
-  
+
   @ViewChild('content') nav: NavController;
  // List of pages that can be navigated to from the left menu
   // the left menu only works after login
@@ -49,7 +49,7 @@ export class MyApp {
     { title: 'Login', component: LoginPage, icon: 'log-in' },
     { title: 'Signup', component: SignupPage, icon: 'person-add' }
   ];
-  rootPage: any = HomePage;  
+  rootPage: any = HomePage;
   constructor(platform: Platform, afAuth: AngularFireAuth, statusBar: StatusBar, splashScreen: SplashScreen,
         public events: Events,
     public userData: AuthProvider,
@@ -57,7 +57,7 @@ export class MyApp {
     public mapData: MapData,
     public storage: Storage
     ) {
-    // to check whether the user is authenticated 
+    // to check whether the user is authenticated
     mapData.load();
 
     this.userData.hasLoggedIn().then((hasLoggedIn) => {
@@ -86,7 +86,7 @@ export class MyApp {
         this.nav.setRoot('LoginPage');
         authObserver.unsubscribe();
       }
-    });     
+    });
   }
 
  openPage(page: PageInterface) {
@@ -160,14 +160,13 @@ export class MyApp {
   go_to_home(Page){
     this.nav.setRoot(HomePage);
   }
- 
+
   go_to_login(){
-    this.nav.setRoot(LoginPage);  
+    this.nav.setRoot(LoginPage);
   }
- 
+
   go_to_signup(){
     this.nav.setRoot(SignupPage);
   }
 
 }
-
